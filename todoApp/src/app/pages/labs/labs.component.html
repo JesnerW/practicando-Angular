@@ -13,6 +13,20 @@
   </li>
 </ul>
 <hr>
+@switch (name()) {
+@case ('Jesner') {
+<p>Yo soy Jesner</p>
+}
+@case ('Ramirez') {
+<p>Yo soy Ramirez</p>
+}
+@case ('Jorge') {
+<p>Yo soy Jorge</p>
+}
+@default {
+<p>yo no soy nadie</p>
+}
+}
 
 <h2>{{'Hola'.repeat(4)}}</h2>
 <p>la suma de 3 + 3 es {{ 3 + 3}}</p>
@@ -28,6 +42,9 @@
 <div *ngIf="1 !== 1">
   My contend
 </div>
+@if (name() === 'Jesner') {
+<div>Soy Jesner</div>
+}
 <div *ngIf="name() === 'Jesner'">
   Soy {{name()}}
 </div>
