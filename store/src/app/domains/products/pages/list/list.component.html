@@ -1,0 +1,6 @@
+<p>list works!</p>
+<div class="grid grid-cols-3 gap-6">
+  @for (item of imgs; track $index) {
+  <app-product [title]="item.title" [precio]="item.precio" [img]="item.url" (addToCart)="fromChild($event)" />
+  }
+</div>
