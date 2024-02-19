@@ -1,47 +1,35 @@
-import { Component } from '@angular/core';
-import { ProductComponent } from '../../components/product/product.component';
+import { Component, inject, signal } from '@angular/core';
+
+import { Product } from '@shared/models/product.model';
+import { ProductComponent } from '@products/components/product/product.component';
+import { HeaderComponent } from '@shared/components/header/header.component';
+import { CartService } from '@shared/services/cart.service';
+import { ProductService } from '@shared/services/product.service';
 
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [ProductComponent],
+  imports: [ProductComponent, HeaderComponent],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css'
 })
 export class ListComponent {
-  imgs = [
-    {
-      url: 'https://picsum.photos/640/640?r=' + Math.random(),
-      precio: 45,
-      title: 'Producto 1'
-    },
-    {
-      url: 'https://picsum.photos/640/640?r=' + Math.random(),
-      precio: 145,
-      title: 'Producto 2'
-    },
-    {
-      url: 'https://picsum.photos/640/640?r=' + Math.random(),
-      precio: 245,
-      title: 'Producto 3'
-    },
-    {
-      url: 'https://picsum.photos/640/640?r=' + Math.random(),
-      precio: 345,
-      title: 'Producto 4'
-    },
-    {
-      url: 'https://picsum.photos/640/640?r=' + Math.random(),
-      precio: 345,
-      title: 'Producto 5'
-    },
-    {
-      url: 'https://picsum.photos/640/640?r=' + Math.random(),
-      precio: 345,
-      title: 'Producto 6'
-    }
-  ]
-  fromChild(texto: string) {
-    console.log(texto)
+  private cartService = inject(CartService);
+  private productService = inject(ProductService);
+
+  products = signal<Product[]>([]);
+
+  ngOnInit() {
+    this.productService.getProducts().subscribe({
+      next: (products) => {
+        this.products.set(products)
+      },
+      error: () => {
+
+      }
+    })
+  }
+  addToCart(product: Product) {
+    this.cartService.addToCart(product)
   }
 }
