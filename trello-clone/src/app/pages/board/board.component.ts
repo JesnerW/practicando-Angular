@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { ToDo } from 'src/app/models/todo.model';
-
+import { Dialog } from '@angular/cdk/dialog';
+import { ToDo, Column } from 'src/app/models/todo.model';
+import { TodoDialogComponent } from 'src/app/components/todo-dialog/todo-dialog.component';
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
@@ -18,31 +19,46 @@ import { ToDo } from 'src/app/models/todo.model';
     `]
 })
 export class BoardComponent implements OnInit {
-  todos: ToDo[] = [
+  columns: Column[] = [
     {
-      id: '1',
-      title: 'Make dishes'
-    }, {
-      id: '2',
-      title: 'Buy a unicorn'
+      title: 'ToDo',
+      todos: [
+        {
+          id: '1',
+          title: 'Make dishes'
+        }, {
+          id: '2',
+          title: 'Buy a unicorn'
+        },
+      ]
     },
-  ]
-
-  doing: ToDo[] = [
     {
-      id: '3',
-      title: 'Watch Angular Path in Platzi'
+      title: 'Doing',
+      todos: [
+        {
+          id: '3',
+          title: 'Watch Angular Path in Platzi'
+        }
+      ]
+    },
+    {
+      title: 'Done',
+      todos: [
+        {
+          id: '4',
+          title: 'Play video games'
+        }
+      ]
     }
   ]
 
-  done: ToDo[] = [
-    {
-      id: '4',
-      title: 'Play video games'
-    }
-  ]
+  todos: ToDo[] = []
+  doing: ToDo[] = []
+  done: ToDo[] = []
 
-  constructor() { }
+  constructor(
+    private dialog: Dialog
+  ) { }
 
   ngOnInit(): void {
   }
@@ -52,5 +68,27 @@ export class BoardComponent implements OnInit {
     } else {
       transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex)
     }
+  }
+  addColumn() {
+    this.columns.push({
+      title: 'New Column',
+      todos: []
+    })
+  }
+
+  openDialog(todo: ToDo) {
+    const dialogRef = this.dialog.open(TodoDialogComponent, {
+      minWidth: '300px',
+      maxWidth: '50%',
+      autoFocus: false,
+      disableClose: true,
+      data: {
+        todo: todo
+      }
+    })
+
+    dialogRef.closed.subscribe(output => {
+      console.log(output)
+    })
   }
 }
