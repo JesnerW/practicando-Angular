@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { BrowserModule } from '@angular/platform-browser';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -37,14 +36,14 @@ import { TableComponent } from './pages/table/table.component';
   imports: [
     BrowserModule,
     OverlayModule,
+    AppRoutingModule,
+    FontAwesomeModule,
     CdkAccordionModule,
     DragDropModule,
     DialogModule,
+    HttpClientModule,
     ScrollingModule,
     CdkTableModule,
-    AppRoutingModule,
-    FontAwesomeModule,
-    HttpClientModule,
     ReactiveFormsModule
   ],
   providers: [],
